@@ -798,6 +798,13 @@ $(zipdir)/popn-15-to-18.zip: \
 	$(V)echo ... $@
 	$(V)zip -j $@ $^
 
+$(zipdir)/drs.zip: \
+		build/bin/avs2_1700-64/launcher.exe \
+		dist/drs/gamestart.bat \
+		| $(zipdir)/
+	$(V)echo ... $@
+	$(V)zip -j $@ $^
+
 $(zipdir)/doc.zip: \
 		doc/ \
 		| $(zipdir)/
@@ -841,6 +848,7 @@ $(BUILDDIR)/bemanitools.zip: \
 		$(zipdir)/ddr-hwio-x86.zip \
 		$(zipdir)/ddr-hwio-x64.zip \
 		$(zipdir)/doc.zip \
+		$(zipdir)/drs.zip \
 		$(zipdir)/iidx-09-to-12.zip \
 		$(zipdir)/iidx-13.zip \
 		$(zipdir)/iidx-14-to-17.zip \

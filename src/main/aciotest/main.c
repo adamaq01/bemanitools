@@ -7,6 +7,7 @@
 
 #include "aciodrv/device.h"
 
+#include "aciotest/bi2a-drs.h"
 #include "aciotest/bi2a-iidx.h"
 #include "aciotest/bi2a-sdvx.h"
 #include "aciotest/handler.h"
@@ -72,6 +73,10 @@ static bool aciotest_assign_handler(
                 handler->init = aciotest_bi2a_iidx_handler_init;
                 handler->update = aciotest_bi2a_iidx_handler_update;
                 break;
+            case 2:
+                handler->init = aciotest_bi2a_drs_handler_init;
+                handler->update = aciotest_bi2a_drs_handler_update;
+                break;
 
             default:
                 break;
@@ -95,8 +100,10 @@ int main(int argc, char **argv)
             "Usage: %s <com port str> <baud rate> <bi2a mode(optional)>\n"
             "Example:\n"
             "\"%s COM1 57600\" for generic acio device\n"
+            "\"%s COM1 57600 bi2a-drs\" for the drs BI2A mode\n"
             "\"%s COM1 57600 bi2a-iidx\" for the iidx BI2A mode\n"
             "\"%s COM1 57600 bi2a-sdvx\" for the sdvx BI2A mode\n",
+            argv[0],
             argv[0],
             argv[0],
             argv[0],
@@ -105,7 +112,9 @@ int main(int argc, char **argv)
     }
 
     if (argc == 4) {
-        if (!strcmp(argv[3], "bi2a-iidx")) {
+        if (!strcmp(argv[3], "bi2a-drs")) {
+            bi2a_mode = 2;
+        } else if (!strcmp(argv[3], "bi2a-iidx")) {
             bi2a_mode = 1;
         } else if (!strcmp(argv[3], "bi2a-sdvx")) {
             bi2a_mode = 0;
