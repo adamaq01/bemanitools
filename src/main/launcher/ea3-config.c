@@ -77,13 +77,16 @@ bool ea3_ident_invoke_module_init(
         ident->spec,
         ident->rev);
 
-    std_setenv("/env/boot/version", "0.0.0");
+    std_setenv("/env/boot/build", "5.4.9");
+    std_setenv("/env/boot/version", "BEMANITOOLS");
+    std_setenv("/env/boot/tag", "BEMANITOOLS");
     std_setenv("/env/profile/security_code", security_code);
+    std_setenv("/env/profile/secplug_b_security_code", security_code);
     std_setenv("/env/profile/system_id", ident->pcbid);
-    std_setenv("/env/profile/account_id", ident->pcbid);
-    std_setenv("/env/profile/license_id", ident->softid);
-    std_setenv("/env/profile/software_id", ident->softid);
-    std_setenv("/env/profile/hardware_id", ident->hardid);
+    std_setenv("/env/profile/hardware_id", "0100DEADBEEF");
+    std_setenv("/env/profile/license_id", "012199999999");
+    std_setenv("/env/profile/software_id", "012199999999");
+    std_setenv("/env/profile/account_id", "012018008135");
 
     /* Set up the short sidcode string, let dll_entry_init mangle it */
 

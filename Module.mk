@@ -111,6 +111,9 @@ include src/main/ddrio-mm/Module.mk
 include src/main/ddrio-smx/Module.mk
 include src/main/ddriotest/Module.mk
 include src/main/ddrio/Module.mk
+include src/main/drshook/Module.mk
+include src/main/drsio/Module.mk
+include src/main/drsio-bio2/Module.mk
 include src/main/dinput/Module.mk
 include src/main/eamio-icca/Module.mk
 include src/main/eamio/Module.mk
@@ -195,6 +198,7 @@ include src/main/vefxio/Module.mk
 include src/main/vigem-iidxio/Module.mk
 include src/main/vigem-sdvxio/Module.mk
 include src/main/vigem-ddrio/Module.mk
+include src/main/vigem-drsio/Module.mk
 include src/main/vigemstub/Module.mk
 
 include src/test/cconfig/Module.mk
@@ -800,7 +804,23 @@ $(zipdir)/popn-15-to-18.zip: \
 
 $(zipdir)/drs.zip: \
 		build/bin/avs2_1700-64/launcher.exe \
+		build/bin/avs2_1700-64/drshook.dll \
+		build/bin/indep-64/config.exe \
+		build/bin/indep-64/eamio.dll \
+		build/bin/indep-64/geninput.dll \
+		build/bin/indep-64/drsio.dll \
+		dist/drs/config.bat \
 		dist/drs/gamestart.bat \
+		dist/drs/drshook.conf \
+		| $(zipdir)/
+	$(V)echo ... $@
+	$(V)zip -j $@ $^
+
+$(zipdir)/drs-hwio-x64.zip: \
+		build/bin/indep-64/aciomgr.dll \
+		build/bin/indep-64/eamio-icca.dll \
+		build/bin/indep-64/drsio-bio2.dll \
+		build/bin/indep-64/vigem-drsio.exe \
 		| $(zipdir)/
 	$(V)echo ... $@
 	$(V)zip -j $@ $^
@@ -849,6 +869,7 @@ $(BUILDDIR)/bemanitools.zip: \
 		$(zipdir)/ddr-hwio-x64.zip \
 		$(zipdir)/doc.zip \
 		$(zipdir)/drs.zip \
+		$(zipdir)/drs-hwio-x64.zip \
 		$(zipdir)/iidx-09-to-12.zip \
 		$(zipdir)/iidx-13.zip \
 		$(zipdir)/iidx-14-to-17.zip \

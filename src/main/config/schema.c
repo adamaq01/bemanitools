@@ -283,6 +283,23 @@ static const struct action_def bst_actions[] = {
     {0x04, IDS_GENERIC_SERVICE},
 };
 
+static const struct action_def drs_actions[] = {
+    {0x00, IDS_GENERIC_TEST},
+    {0x01, IDS_GENERIC_SERVICE},
+
+    {0x03, IDS_DRS_P1_MENU_LEFT},
+    {0x04, IDS_DRS_P1_MENU_RIGHT},
+    {0x05, IDS_DRS_P1_MENU_UP},
+    {0x06, IDS_DRS_P1_MENU_DOWN},
+    {0x07, IDS_DRS_P1_START},
+
+    {0x08, IDS_DRS_P2_MENU_LEFT},
+    {0x09, IDS_DRS_P2_MENU_RIGHT},
+    {0x0A, IDS_DRS_P2_MENU_UP},
+    {0x0B, IDS_DRS_P2_MENU_DOWN},
+    {0x0C, IDS_DRS_P2_START},
+};
+
 static const struct eam_unit_def schema_eam_unit_defs[] = {
     {IDS_READER_P1, 0}, {IDS_READER_P2, 1}};
 
@@ -379,6 +396,17 @@ const struct schema schemas[] = {
      IDS_BST_SCHEMA,
      bst_actions,
      lengthof(bst_actions),
+     NULL,
+     0,
+     NULL,
+     0,
+     schema_eam_unit_defs,
+     1},
+
+     {"drs",
+     IDS_DRS_SCHEMA,
+     drs_actions,
+     lengthof(drs_actions),
      NULL,
      0,
      NULL,

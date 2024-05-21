@@ -8,4 +8,4 @@ if not exist dev\nvram\coin.xml copy prop\coin.xml dev\nvram\coin.xml
 if not exist dev\nvram\eacoin.xml copy prop\eacoin.xml dev\nvram\eacoin.xml
 if not exist dev\raw mkdir dev\raw
 
-.\launcher.exe -H 402653184 .\superstep.dll %*
+.\launcher.exe -H 402653184 -K drshook.dll .\superstep.dll --config drshook.conf %*

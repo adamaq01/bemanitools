@@ -93,6 +93,8 @@ The following games are supported with their corresponding hook-libraries.
   - SOUND VOLTEX IV HEAVENLY HAVEN (`sdvx-01-to-04.zip`): sdvxhook
   - SOUND VOLTEX Vivid Wave (`sdvx-05-to-06`): sdvxhook2
   - SOUND VOLTEX EXCEED GEAR (`sdvx-05-to-06`): sdvxhook2
+- DANCERUSH STARDOM
+  - DANCERUSH STARDOM (`drs.zip`): drshook
 
 ## Auxiliary tooling
 

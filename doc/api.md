@@ -40,6 +40,9 @@ The following implementations are already shipped with BT5.
   - sdvxio.dll (default): Keyboard, joystick and mouse input
   - [sdvxio-bio2.dll](sdvxhook/sdvxio-bio2.md): BIO2 driver
   - [sdvxio-kfca.dll](sdvxhook/sdvxio-kfca.md): KFCA IO board driver
+- DANCERUSH STARDOM
+  - drsio.dll (default): Keyboard, joystick and mouse input
+  - [drsio-bio2.dll](drshook/drsio-bio2.md): BIO2 driver
 
 ### Eamuse readers
 

@@ -1,7 +1,7 @@
 #include <iphlpapi.h>
 #include <wincrypt.h> /* Required by mingw for some reason */
-#include <windows.h>
 #include <winsock2.h>
+#include <windows.h>
 
 #include <stdbool.h>
 #include <string.h>

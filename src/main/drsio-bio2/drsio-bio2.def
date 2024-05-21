@@ -1,0 +1,9 @@
+LIBRARY drsio-bio2
+
+EXPORTS
+    drs_io_fini
+    drs_io_get_buttons
+    drs_io_set_button_lights
+    drs_io_init
+    drs_io_set_loggers
+    _bio2_drs_io_poll

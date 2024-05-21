@@ -29,6 +29,9 @@ enum ac_io_cmd {
     /* Yet unknown command encountered first on jubeat (1) */
     AC_IO_CMD_UNKN_00FF = 0x00FF,
     AC_IO_CMD_CLEAR = 0x0100,
+    AC_IO_CMD_GET_STATE = 0x0113,
+    AC_IO_CMD_TAPELED_INIT = 0x0140,
+    AC_IO_CMD_TAPELED_SEND = 0x0141,
 };
 
 enum ac_io_node_type {

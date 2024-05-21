@@ -14,3 +14,4 @@ Available ViGEm client implementations:
 
 - [vigem-iidxio](vigem-iidxio.md): Exposes inputs provided by the iidxio API as three XBOX gamepads
 - [vigem-sdvxio](vigem-sdvxio.md): Exposes inputs provided by the sdvxio API as one XBOX gamepad
+- [vigem-drsio](vigem-drsio.md): Exposes inputs provided by the drsio API as one XBOX gamepad
