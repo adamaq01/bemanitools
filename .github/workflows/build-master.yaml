@@ -10,7 +10,7 @@ jobs:
     runs-on: "ubuntu-22.04"
     steps:
       - name: "Checkout repository"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v4"
 
       - name: "Install prerequisites"
         run: |
@@ -30,7 +30,7 @@ jobs:
           cd ..
 
       - name: "Upload artifact"
-        uses: "actions/upload-artifact@v2"
+        uses: "actions/upload-artifact@v4"
         with:
           name: bemanitools-${{ github.sha }}
           retention-days: 90
