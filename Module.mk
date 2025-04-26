@@ -160,6 +160,7 @@ include src/main/iidxio-async/Module.mk
 include src/main/iidxio-bio2/Module.mk
 include src/main/iidxio-ezusb/Module.mk
 include src/main/iidxio-ezusb2/Module.mk
+include src/main/iidxio-lap/Module.mk
 include src/main/iidxio/Module.mk
 include src/main/iidxiotest/Module.mk
 include src/main/imgui/Module.mk
@@ -476,6 +477,7 @@ $(zipdir)/iidx-hwio-x86.zip: \
 		build/bin/indep-32/iidxio-bio2.dll \
 		build/bin/indep-32/iidxio-ezusb.dll \
 		build/bin/indep-32/iidxio-ezusb2.dll \
+		build/bin/indep-32/iidxio-lap.dll \
 		dist/iidx/iidxio-bio2.conf \
 		build/bin/indep-32/vigem-iidxio.exe \
 		dist/iidx/vigem-iidxio.conf \
@@ -490,6 +492,7 @@ $(zipdir)/iidx-hwio-x64.zip: \
 		build/bin/indep-64/iidxio-bio2.dll \
 		build/bin/indep-64/iidxio-ezusb.dll \
 		build/bin/indep-64/iidxio-ezusb2.dll \
+		build/bin/indep-64/iidxio-lap.dll \
 		dist/iidx/iidxio-bio2.conf \
 		build/bin/indep-64/vigem-iidxio.exe \
 		dist/iidx/vigem-iidxio.conf \
