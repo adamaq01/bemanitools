@@ -105,8 +105,13 @@ bool sdvx_io_read_input(void)
 
 uint16_t sdvx_io_get_spinner_pos(uint8_t spinner_no)
 {
-    // todo: implement
-    return 0;
+    if (spinner_no == 0) {
+        return pin_cur.analog_left;
+    } else if (spinner_no == 1) {
+        return pin_cur.analog_right;
+    } else {
+        return 0;
+    }
 }
 
 static uint8_t shift_pin(uint16_t value, uint8_t pin)
@@ -120,14 +125,38 @@ static uint8_t shift_pin(uint16_t value, uint8_t pin)
 
 uint8_t sdvx_io_get_input_gpio_sys(void)
 {
-    // todo: implement
-    return 0;
+    uint8_t state = 0;
+
+    state |= shift_pin(pin_cur.test, SDVX_IO_IN_GPIO_SYS_TEST);
+    state |= shift_pin(pin_cur.service, SDVX_IO_IN_GPIO_SYS_SERVICE);
+    state |= shift_pin(pin_cur.coin, SDVX_IO_IN_GPIO_SYS_COIN);
+
+    return state;
 }
 
 uint16_t sdvx_io_get_input_gpio(uint8_t gpio_bank)
 {
-    // todo: implement
-    return 0;
+    uint16_t state = 0;
+
+    switch (gpio_bank) {
+        case 0:
+            state |= shift_pin(pin_cur.recorder, SDVX_IO_IN_GPIO_0_RECORDER);
+            state |= shift_pin(pin_cur.headphone, SDVX_IO_IN_GPIO_0_HEADPHONE);
+            state |= shift_pin(pin_cur.buttons & (1 << 0), SDVX_IO_IN_GPIO_0_START);
+            state |= shift_pin(pin_cur.buttons & (1 << 1), SDVX_IO_IN_GPIO_0_A);
+            state |= shift_pin(pin_cur.buttons & (1 << 2), SDVX_IO_IN_GPIO_0_B);
+            state |= shift_pin(pin_cur.buttons & (1 << 3), SDVX_IO_IN_GPIO_0_C);
+            break;
+        case 1:
+            state |= shift_pin(pin_cur.buttons & (1 << 4), SDVX_IO_IN_GPIO_1_D);
+            state |= shift_pin(pin_cur.buttons & (1 << 5), SDVX_IO_IN_GPIO_1_FX_L);
+            state |= shift_pin(pin_cur.buttons & (1 << 6), SDVX_IO_IN_GPIO_1_FX_R);
+            break;
+        default:
+            break;
+    }
+
+    return state;
 }
 
 bool sdvx_io_set_amp_volume(
