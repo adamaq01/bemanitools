@@ -106,9 +106,9 @@ bool sdvx_io_read_input(void)
 uint16_t sdvx_io_get_spinner_pos(uint8_t spinner_no)
 {
     if (spinner_no == 0) {
-        return pin_cur.analog_left;
+        return pin_cur.analog_left >> 4;
     } else if (spinner_no == 1) {
-        return pin_cur.analog_right;
+        return pin_cur.analog_right >> 4;
     } else {
         return 0;
     }
