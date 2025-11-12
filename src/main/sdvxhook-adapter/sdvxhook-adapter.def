@@ -1,0 +1,4 @@
+LIBRARY sdvxhook-adapter
+
+EXPORTS
+    DllMain@12 @1 NONAME
