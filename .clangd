@@ -1,0 +1,16 @@
+CompileFlags:
+  Add:
+    - -xc
+    - -I/workspaces/bemanitools/src
+    - -I/workspaces/bemanitools/src/main
+    - -I/workspaces/bemanitools/src/test
+    - -DGITREV=development
+    - -O2
+    - -pipe
+    - -ffunction-sections
+    - -fdata-sections
+    - -Wall
+    - -std=c99
+    - -DPSAPI_VERSION=1
+    - -Werror
+  Compiler: x86_64-w64-mingw32-gcc

@@ -41,3 +41,9 @@ typedef void (*t_aioIob2Bi2xUFC_GetDeviceStatus)(
     struct AIO_NODE *i_pNodeCtl,
     struct AIO_IOB2_BI2X_UFC__DEVSTATUS *status,
     int size);
+typedef void (*t_aioIob2Bi2xUFC_SetTapeLedData)(
+    struct AIO_NODE *i_pNodeCtl, unsigned int index, uint8_t *data);
+
+// 0 = ON, 1 = OFF
+typedef void (*t_aioIob2Bi2xUFC_SetPlayerButtonLamp)(
+    struct AIO_NODE *i_pNodeCtl, unsigned int index, uint8_t state);

@@ -10,3 +10,4 @@ libs_sdvxio-valk         := \
 src_sdvxio-valk          := \
     sdvxio.c \
     load_aio.c \
+    bi2x_sdvx.c \

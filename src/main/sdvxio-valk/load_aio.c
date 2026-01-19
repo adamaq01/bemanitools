@@ -8,7 +8,7 @@
 
 #include "load_aio.h"
 
-#define DECLARE_MODULE_FUNCTION(NAME) t_ ## NAME NAME
+#define DECLARE_MODULE_FUNCTION(NAME) t_##NAME NAME
 
 struct aio_module {
     // "libaio.dll"
@@ -21,21 +21,40 @@ struct aio_module {
     DECLARE_MODULE_FUNCTION(aioNMgrIob2_Create);
     // "libaio-iob2_video.dll"
     DECLARE_MODULE_FUNCTION(aioIob2Bi2xUFC_Create);
-    // technically the game uses the C++ one, but this one doesn't incur an extra function call unlike the C version
+    // technically the game uses the C++ one, but this one doesn't incur an
+    // extra function call unlike the C version
     DECLARE_MODULE_FUNCTION(aioIob2Bi2xUFC_IoReset);
     DECLARE_MODULE_FUNCTION(aioIob2Bi2xUFC_GetDeviceStatus);
+    DECLARE_MODULE_FUNCTION(aioIob2Bi2xUFC_SetTapeLedData);
+    DECLARE_MODULE_FUNCTION(aioIob2Bi2xUFC_SetPlayerButtonLamp);
 };
 
-void warn_module(const char *function_name) {
+void warn_module(const char *function_name)
+{
     log_warning("Could not load %s!", function_name);
 }
 
-#define LOAD_MODULE_FUNCTION(TARGET, HANDLE, NAME) do {TARGET.NAME = (t_ ## NAME)GetProcAddress(HANDLE, #NAME); if (TARGET.NAME == NULL) {warn_module(#NAME); return;}} while(0)
-#define LOAD_MODULE_FUNCTION_EX(TARGET, HANDLE, NAME, REAL_NAME) do {TARGET.NAME = (t_ ## NAME)GetProcAddress(HANDLE, REAL_NAME); if (TARGET.NAME == NULL) {warn_module(#NAME); return;}} while(0)
+#define LOAD_MODULE_FUNCTION(TARGET, HANDLE, NAME)              \
+    do {                                                        \
+        TARGET.NAME = (t_##NAME) GetProcAddress(HANDLE, #NAME); \
+        if (TARGET.NAME == NULL) {                              \
+            warn_module(#NAME);                                 \
+            return;                                             \
+        }                                                       \
+    } while (0)
+#define LOAD_MODULE_FUNCTION_EX(TARGET, HANDLE, NAME, REAL_NAME)    \
+    do {                                                            \
+        TARGET.NAME = (t_##NAME) GetProcAddress(HANDLE, REAL_NAME); \
+        if (TARGET.NAME == NULL) {                                  \
+            warn_module(#NAME);                                     \
+            return;                                                 \
+        }                                                           \
+    } while (0)
 
 static struct aio_module module_handles;
 
-void init_aio_handles(void) {
+void init_aio_handles(void)
+{
     HMODULE h_aio = LoadLibrary("libaio.dll");
     HMODULE h_aio_iob = LoadLibrary("libaio-iob.dll");
     HMODULE h_aio_iob2_video = LoadLibrary("libaio-iob2_video.dll");
@@ -65,11 +84,17 @@ void init_aio_handles(void) {
     LOAD_MODULE_FUNCTION(module_handles, h_aio_iob, aioIob2Bi2x_OpenSciUsbCdc);
     LOAD_MODULE_FUNCTION(module_handles, h_aio_iob, aioNMgrIob2_Create);
 
-
     // "libaio-iob2_video.dll"
-    LOAD_MODULE_FUNCTION(module_handles, h_aio_iob2_video, aioIob2Bi2xUFC_Create);
-    LOAD_MODULE_FUNCTION(module_handles, h_aio_iob2_video, aioIob2Bi2xUFC_IoReset);
-    LOAD_MODULE_FUNCTION(module_handles, h_aio_iob2_video, aioIob2Bi2xUFC_GetDeviceStatus);
+    LOAD_MODULE_FUNCTION(
+        module_handles, h_aio_iob2_video, aioIob2Bi2xUFC_Create);
+    LOAD_MODULE_FUNCTION(
+        module_handles, h_aio_iob2_video, aioIob2Bi2xUFC_IoReset);
+    LOAD_MODULE_FUNCTION(
+        module_handles, h_aio_iob2_video, aioIob2Bi2xUFC_GetDeviceStatus);
+    LOAD_MODULE_FUNCTION(
+        module_handles, h_aio_iob2_video, aioIob2Bi2xUFC_SetTapeLedData);
+    LOAD_MODULE_FUNCTION(
+        module_handles, h_aio_iob2_video, aioIob2Bi2xUFC_SetPlayerButtonLamp);
 
     log_misc("Done loading all libaio functions required.");
 }
@@ -94,12 +119,13 @@ struct AIO_NMGR {
 };
 
 struct bi2x_ctx {
-  struct AIO_SCI *sci_usb;
-  struct AIO_NMGR *iob2_mgr;
-  struct AIO_NODE *iob_bi2x_node;
+    struct AIO_SCI *sci_usb;
+    struct AIO_NMGR *iob2_mgr;
+    struct AIO_NODE *iob_bi2x_node;
 };
 
-struct bi2x_ctx *setup_bi2x(void) {
+struct bi2x_ctx *setup_bi2x(void)
+{
     struct bi2x_ctx *ctx = malloc(sizeof(struct bi2x_ctx));
 
     ctx->sci_usb = module_handles.aioIob2Bi2x_OpenSciUsbCdc(0);
@@ -116,7 +142,8 @@ struct bi2x_ctx *setup_bi2x(void) {
         return NULL;
     }
 
-    ctx->iob_bi2x_node = module_handles.aioIob2Bi2xUFC_Create(ctx->iob2_mgr, 1u);
+    ctx->iob_bi2x_node =
+        module_handles.aioIob2Bi2xUFC_Create(ctx->iob2_mgr, 1u);
     if (!ctx->iob_bi2x_node) {
         log_warning("Unable to aioIob2Bi2xUFC_Create?");
         free(ctx);
@@ -132,7 +159,8 @@ struct bi2x_ctx *setup_bi2x(void) {
     return ctx;
 }
 
-void close_bi2x(struct bi2x_ctx *ctx) {
+void close_bi2x(struct bi2x_ctx *ctx)
+{
     if (ctx->iob_bi2x_node) {
         module_handles.aioNodeCtl_Destroy(ctx->iob_bi2x_node);
     }
@@ -146,10 +174,27 @@ void close_bi2x(struct bi2x_ctx *ctx) {
     }
 }
 
-void poll_bi2x(struct bi2x_ctx *ctx, struct AIO_IOB2_BI2X_UFC__DEVSTATUS *status) {
+void poll_bi2x(
+    struct bi2x_ctx *ctx, struct AIO_IOB2_BI2X_UFC__DEVSTATUS *status)
+{
     module_handles.aioNodeCtl_UpdateDevicesStatus();
 
     // technically we should do some checking here
 
-    module_handles.aioIob2Bi2xUFC_GetDeviceStatus(ctx->iob_bi2x_node, status, sizeof(struct AIO_IOB2_BI2X_UFC__DEVSTATUS));
+    module_handles.aioIob2Bi2xUFC_GetDeviceStatus(
+        ctx->iob_bi2x_node,
+        status,
+        sizeof(struct AIO_IOB2_BI2X_UFC__DEVSTATUS));
+}
+
+void set_tape_led_data(struct bi2x_ctx *ctx, uint32_t index, uint8_t *data)
+{
+    module_handles.aioIob2Bi2xUFC_SetTapeLedData(
+        ctx->iob_bi2x_node, index, data);
+}
+
+void set_player_button_lamp(struct bi2x_ctx *ctx, uint32_t index, uint8_t state)
+{
+    module_handles.aioIob2Bi2xUFC_SetPlayerButtonLamp(
+        ctx->iob_bi2x_node, index, state);
 }

@@ -1,0 +1,4 @@
+{
+    "name": "bemanitools Dev Container",
+    "build": { "dockerfile": "../Dockerfile.dev" }
+}
