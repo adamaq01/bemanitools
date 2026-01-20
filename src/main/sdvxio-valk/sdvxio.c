@@ -74,30 +74,30 @@ void sdvxio_lights_to_bi2x_lights_state(
     // Left wing
     rgb_t wingLeft = mix_rgb(
         state->pwm.lights.wingUpperLeft, state->pwm.lights.wingLowerLeft);
-    fill_rgb_array(
-        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_LEFT_WING, &count),
-        count,
-        wingLeft);
+    rgb_t *left_wing =
+        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_LEFT_WING, &count);
+    fill_rgb_array(left_wing, count, wingLeft);
+    count = 0;
 
     // Right wing
     rgb_t wingRight = mix_rgb(
         state->pwm.lights.wingUpperRight, state->pwm.lights.wingLowerRight);
-    fill_rgb_array(
-        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_LEFT_WING, &count),
-        count,
-        wingRight);
+    rgb_t *right_wing =
+        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_RIGHT_WING, &count);
+    fill_rgb_array(right_wing, count, wingRight);
+    count = 0;
 
     // Woofer
-    fill_rgb_array(
-        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_WOOFER, &count),
-        count,
-        state->pwm.lights.woofer);
+    rgb_t *woofer =
+        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_WOOFER, &count);
+    fill_rgb_array(woofer, count, state->pwm.lights.woofer);
+    count = 0;
 
     // Control Panel
-    fill_rgb_array(
-        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_CONTROL_PANEL, &count),
-        count,
-        state->pwm.lights.controller);
+    rgb_t *controller =
+        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_CONTROL_PANEL, &count);
+    fill_rgb_array(controller, count, state->pwm.lights.controller);
+    count = 0;
 
     // Title
     rgb_t titleLeft = (rgb_t) {state->pwm.lights.titleL,
@@ -106,15 +106,10 @@ void sdvxio_lights_to_bi2x_lights_state(
     rgb_t titleRight = (rgb_t) {state->pwm.lights.titleR,
                                 state->pwm.lights.titleR,
                                 state->pwm.lights.titleR};
-    fill_rgb_array(
-        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_TITLE, &count),
-        count / 2,
-        titleLeft);
-    fill_rgb_array(
-        bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_TITLE, &count) +
-            count / 2,
-        count / 2,
-        titleRight);
+    rgb_t *title = bi2x_output_lights(bi2x_output, SDVX_TAPE_LED_TITLE, &count);
+    fill_rgb_array(title, count / 2, titleLeft);
+    fill_rgb_array(title + count / 2, count / 2, titleRight);
+    count = 0;
 
     // GPIO
     bi2x_output->gpio.raw = state->gpio.raw;
