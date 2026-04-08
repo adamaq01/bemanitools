@@ -115,6 +115,7 @@ The following games are supported with their corresponding hook-libraries.
   - [eamiotest](doc/tools/eamiotest.md): For [eamio API](doc/api.md#eamuse-readers)
   - [iidxiotest](doc/tools/iidxiotest.md): For [iidxio API](doc/api.md#io-boards)
   - [jbiotest](doc/tools/jbiotest.md): For [jbio API](doc/api.md#io-boards)
+  - [sdvxiotest](doc/tools/sdvxiotest.md): For [sdvxio API](doc/api.md#io-boards)
 - DDR IO testing: Tools for testing hardware of a real DDR cabinet
   - [p3io-ddr-tool](doc/tools/p3io-ddr-tool.md)
   - [extiotest](doc/tools/extiotest.md)
