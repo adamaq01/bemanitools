@@ -1,0 +1,48 @@
+name: "sdvxio-valk pre-release (sdvx-hwio-x64)"
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - "sdvxio-valk"
+    paths:
+      - "src/main/sdvxio-valk/**"
+  workflow_dispatch:
+
+jobs:
+  build-and-prerelease:
+    runs-on: "ubuntu-22.04"
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4"
+
+      - name: "Install prerequisites"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y runc containerd docker.io
+
+      - name: "Build"
+        run: |
+          make build-docker
+
+      - name: "Create pre-release with sdvx-hwio-x64.zip"
+        uses: "softprops/action-gh-release@v2"
+        with:
+          tag_name: "sdvxio-valk-${{ github.sha }}"
+          target_commitish: "${{ github.sha }}"
+          name: "sdvx-hwio-x64 (sdvxio-valk ${{ github.ref_name }} @ ${{ github.sha }})"
+          body: |
+            Pre-release for **sdvx-hwio-x64.zip** (push to `sdvxio-valk` under `src/main/sdvxio-valk/**`, or manual run).
+
+            Commit: ${{ github.sha }}  
+            Ref: ${{ github.ref }}
+
+            Asset **sdvx-hwio-x64.zip** is the SDVX hardware IO x64 bundle (includes `sdvxio-valk.dll` and related DLLs). Same layout as in the main `bemanitools.zip` distribution.
+          prerelease: true
+          fail_on_unmatched_files: true
+          files: |
+            build/zip/sdvx-hwio-x64.zip
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
